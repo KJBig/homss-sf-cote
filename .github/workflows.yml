@@ -21,6 +21,7 @@ jobs:
           script: | # 실행할 스크립트
             cd /home/ubuntu/build
             git pull origin main
+            cp ../.env ./homss-sf-cote
             cd homss-sf-cote
             pm2 kill
             npm i --force
