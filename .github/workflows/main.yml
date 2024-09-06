@@ -10,15 +10,18 @@ jobs:
     name: main
     runs-on: ubuntu-latest # 실행될 인스턴스 OS와 버전
 
-    steps:
-      - name: excuting remote ssh commands
-        uses: appleboy/ssh-action@master # ssh 접속하는 오픈소스
+     steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.7.0
         with:
-          host: ${{ secrets.REMOTE_IP }} # 인스턴스 IP
-          username: ${{ secrets.REMOTE_USER }} # 우분투 아이디
-          key: ${{ secrets.REMOTE_PRIVATE_KEY }} # ec2 instance pem key
-          port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
-          script: | # 실행할 스크립트
+          ssh-private-key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+
+      - name: SSH into EC2 and clone repo
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.REMOTE_USER }}@<REMOTE_IP> << 'EOF'
             cd /home/ubuntu/build
             rm -rf ${{ secrets.PROJECT_NAME }}
             git clone ${{ secrets.PROJECT_URL }}
@@ -27,3 +30,4 @@ jobs:
             pm2 kill
             npm i --force
             pm2 start ecosystem.config.cjs --env prod
+          EOF
