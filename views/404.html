@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOT FOUND-[HOMSS-SF]</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+        .notfound-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+        }
+        .notfound-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .notfound-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>404</h1>
+    <div class="notfound-container">
+        <form id="notfoundForm">
+            <p id="message">{{ message }}</p>
+            <!-- <button type="submit", onclick="window.location.href='/rank'">홈으로</button> -->
+            <button type="submit">홈으로</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('notfoundForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작 방지
+            window.location.href = '/rank';  // 로그인 성공 후 이동할 페이지
+        });
+    </script>
+</body>
+</html>

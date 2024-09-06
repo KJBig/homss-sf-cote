@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입-[HOMSS-SF]</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>회원가입</h1>
+
+    <div class="login-container">
+        <form id="joinForm">
+            <input type="text" placeholder="닉네임" name="nickname" required>
+            <input type="password" placeholder="비밀번호" id="password" required>
+            <button type="submit">가입하기</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('joinForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작 방지
+            console.log("action");
+    
+            // 폼 데이터 수집
+            const nickname = document.querySelector('input[name="nickname"]').value;
+            const password = document.getElementById('password').value;
+    
+            // AJAX 요청 생성
+            fetch('/join', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nickname: nickname, password: password})  // 비밀번호는 헤더로, 나머지 데이터는 바디로 보냄
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 성공 처리
+                    window.location.href = '/login';  // 로그인 성공 후 이동할 페이지
+                } else {
+                    // 실패 처리
+                    alert('회원가입 실패');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+    
+</body>
+</html> 

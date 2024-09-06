@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>현황-[HOMSS-SF]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+        }
+        header a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            margin: 0 15px; /* 좌우 여백을 추가하여 균형 잡기 */
+        }
+        header .center {
+            flex: 1; /* 각 center 항목이 동일한 비율로 자라도록 설정 */
+            text-align: center;
+        }
+        header .left,
+        header .right {
+            flex: 1;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f8f8f8;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="left"><a href="/rank">랭킹</a></div>
+        <div class="center"><a href="/certification">인증하기</a></div>
+        <div class="center"><a href="/status">현황</a></div>
+        <div class="right"><a href="/mypage">마이페이지</a></div>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>순번</th>
+                    <th>닉네임</th>
+                    <th>문제 제목</th>
+                    <th>시간</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in post_list %}
+                <tr>
+                    <td>{{ post.postId }}</td>
+                    <td>{{ post.memberNickname }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.createdAt }}</td>
+                    <td><a href="/post/{{ post.postId }}" class="link-button">보기</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
+

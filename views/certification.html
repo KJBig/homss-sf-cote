@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>등록-[HOMSS-SF]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+        }
+        header a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            margin: 0 15px; /* 좌우 여백을 추가하여 균형 잡기 */
+        }
+        header .center {
+            flex: 1; /* 각 center 항목이 동일한 비율로 자라도록 설정 */
+            text-align: center;
+        }
+        header .left,
+        header .right {
+            flex: 1;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        form input, form button {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        form input[type="file"] {
+            border: none;
+            padding: 0;
+        }
+        form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="left"><a href="/rank">랭킹</a></div>
+        <div class="center"><a href="/certification">인증하기</a></div>
+        <div class="center"><a href="/status">현황</a></div>
+        <div class="right"><a href="/mypage">마이페이지</a></div>
+    </header>
+    <main>
+        <form id="certificationForm">
+            <label for="title">문제 제목</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="url">문제 URL</label>
+            <input type="text" id="url" name="url" required>
+
+            <label for="image">이미지 업로드</label>
+            <input type="file" id="image" name="image" accept="image/*">
+
+            <div id="imagePreview" style="margin-top: 10px;">
+                <!-- 여기에서 업로드한 이미지가 미리보기로 출력됩니다. -->
+            </div>
+
+            <button type="submit">등록하기</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.innerHTML = ''; // 기존 미리보기를 초기화
+    
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+    
+                reader.onload = function(e) {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = e.target.result;
+                    imgElement.style.maxWidth = '100%';
+                    imgElement.style.maxHeight = '300px';
+                    imagePreview.appendChild(imgElement);
+                }
+    
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('certificationForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작 방지
+    
+            // 폼 데이터 수집
+            const title = document.querySelector('input[name="title"]').value;
+            const url = document.querySelector('input[name="url"]').value;
+            
+            // 이미지
+            const imageInput = document.getElementById('image');
+            const file = imageInput.files[0];
+            const formData = new FormData();
+
+            if (file) {
+                formData.append('postImage', file); // FormData에 이미지 파일 추가
+            }
+            let imageUrlResponse;
+            try {
+                // 텍스트 데이터를 전송
+                imageUrlResponse = await fetch('/uploads/image/post', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!imageUrlResponse.ok) {
+                    throw new Error('텍스트 데이터 전송 실패');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert(error.message);
+            }
+    
+            // 응답을 JSON으로 파싱
+            const imageUrl = await imageUrlResponse.json();
+
+            // AJAX 요청 생성
+            fetch('/post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title: title, url: url, image: imageUrl.imageUrl })  // 비밀번호는 헤더로, 나머지 데이터는 바디로 보냄
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 성공 처리
+                    alert('등록 성공');
+                    window.location.href = '/certification';  // 로그인 성공 후 이동할 페이지
+                } else {
+                    // 실패 처리
+                    alert('등록 실패');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
