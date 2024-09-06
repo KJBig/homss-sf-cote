@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: excuting remote ssh commands
-        uses: appleboy/ssh-action@v0.1.6 # ssh 접속하는 오픈소스
+        uses: appleboy/ssh-action@master # ssh 접속하는 오픈소스
         with:
           host: ${{ secrets.REMOTE_IP }} # 인스턴스 IP
           username: ${{ secrets.REMOTE_USER }} # 우분투 아이디
@@ -26,4 +26,4 @@ jobs:
             cd ${{ secrets.PROJECT_NAME }}
             pm2 kill
             npm i --force
-            pm2 start ./server/app.js
+            pm2 start ecosystem.config.cjs --env prod
