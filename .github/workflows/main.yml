@@ -20,10 +20,10 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
           script: | # 실행할 스크립트
             cd /home/ubuntu/build
-            git pull origin main
-            cp ../.env ./homss-sf-cote
-            cd homss-sf-cote
+            rm -rf ${{ secrets.PROJECT_NAME }}
+            git clone ${{ secrets.PROJECT_URL }}
+            cp ../ecosystem.config.cjs ./${{ secrets.PROJECT_NAME }}
+            cd ${{ secrets.PROJECT_NAME }}
             pm2 kill
             npm i --force
-            npm start build
             pm2 start ./server/app.js
