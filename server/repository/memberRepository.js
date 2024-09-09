@@ -73,7 +73,7 @@ export const getRankerLimit10 = async function (transaction) {
             attributes: [
                 'member_id', 
                 'nickname',
-                [Sequelize.fn('COUNT', Sequelize.col('posts.post_id')), 'postCount'] // postCount 속성 추가
+                [Sequelize.fn('COUNT', Sequelize.col('Posts.post_id')), 'postCount'] // postCount 속성 추가
             ],
             include: [{
                 model: Post,
