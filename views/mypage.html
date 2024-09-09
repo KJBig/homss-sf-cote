@@ -106,28 +106,32 @@
         document.getElementById('deleteAccount').addEventListener('click', function(event) {
           event.preventDefault(); // 링크 기본 동작 방지
 
-          fetch(`/member/withdraw`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-            // 쿼리 문자열이 URL에 포함되므로, 요청 본문은 비워두어도 됩니다.
-          })
-          .then(response => {
-                if (response.ok) {
-                    alert("회원 탈퇴 성공");
-                    // 성공 처리
-                    window.location.href = '/login';
-                } else {
-                    // 실패 처리
-                    alert('회원 탈퇴 중 오류가 발생했습니다.');
+          const confirmSend = confirm("정말 탈퇴하시겠습니까?");
+
+          if(confirmSend) {
+            fetch(`/member/withdraw`, {
+                method: 'DELETE',
+                headers: {
+                'Content-Type': 'application/json'
                 }
+                // 쿼리 문자열이 URL에 포함되므로, 요청 본문은 비워두어도 됩니다.
             })
-          .catch(error => {
-            console.error('Error:', error);
-            alert('회원 탈퇴 중 오류가 발생했습니다.');
-          });
-        });
+            .then(response => {
+                    if (response.ok) {
+                        alert("회원 탈퇴 성공");
+                        // 성공 처리
+                        window.location.href = '/login';
+                    } else {
+                        // 실패 처리
+                        alert('회원 탈퇴 중 오류가 발생했습니다.');
+                    }
+                })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('회원 탈퇴 중 오류가 발생했습니다.');
+            });
+        }    
+    });    
     </script>
 
 <!-- <script>
