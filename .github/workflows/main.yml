@@ -10,7 +10,7 @@ jobs:
     name: main
     runs-on: ubuntu-latest # 실행될 인스턴스 OS와 버전
 
-     steps:
+    steps:
       - name: Checkout the code
         uses: actions/checkout@v3
 
@@ -19,15 +19,21 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.REMOTE_PRIVATE_KEY }}
 
-      - name: SSH into EC2 and clone repo
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.REMOTE_USER }}@<REMOTE_IP> << 'EOF'
+      - name: Deploy to Local Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_IP }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.LOCAL_SERVER_SSH_PASSWORD }}
+          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          script: |
             cd /home/ubuntu/build
             rm -rf ${{ secrets.PROJECT_NAME }}
+            rm -rf ecosystem.config.cjs
             git clone ${{ secrets.PROJECT_URL }}
             cp ../ecosystem.config.cjs ./${{ secrets.PROJECT_NAME }}
             cd ${{ secrets.PROJECT_NAME }}
             pm2 kill
             npm i --force
-            pm2 start ecosystem.config.cjs --env prod
-          EOF
+            pm2 start ../ecosystem.config.cjs --env prod
