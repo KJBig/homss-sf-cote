@@ -27,13 +27,15 @@ jobs:
           password: ${{ secrets.LOCAL_SERVER_SSH_PASSWORD }}
           key: ${{ secrets.REMOTE_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: |
-            cd /home/ubuntu/build
-            rm -rf ${{ secrets.PROJECT_NAME }}
-            rm -rf ecosystem.config.cjs
-            git clone ${{ secrets.PROJECT_URL }}
-            cp ../ecosystem.config.cjs ./${{ secrets.PROJECT_NAME }}
-            cd ${{ secrets.PROJECT_NAME }}
-            pm2 kill
-            npm i --force
-            pm2 start ../ecosystem.config.cjs --env prod
+          # script: |
+            # cd /home/ubuntu/build
+            # rm -rf ${{ secrets.PROJECT_NAME }}
+            # rm -rf ecosystem.config.cjs
+            # git clone ${{ secrets.PROJECT_URL }}
+            # cp ../ecosystem.config.cjs ./${{ secrets.PROJECT_NAME }}
+            # cd ${{ secrets.PROJECT_NAME }}
+            # pm2 kill
+            # npm i --force
+            # pm2 start ../ecosystem.config.cjs --env prod
+          script: | 
+            echo test
