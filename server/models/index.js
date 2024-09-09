@@ -13,7 +13,13 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
   max: 5,
   min: 0,
   acquire: 30000,
-  idle: 10000
+  idle: 10000,
+  timezone: "Asia/Seoul",
+  dialectOptions: {
+    charset: "utf8mb4",
+    dateStrings: true,
+    typeCast: true,
+  },
 }});
 
 db.sequelize = sequelize;
