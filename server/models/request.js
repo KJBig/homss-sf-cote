@@ -1,20 +1,16 @@
 import { DataTypes, Model } from 'sequelize';
 
-export default class Member extends Model {
+export default class Request extends Model {
     static init(sequelize) {
         return super.init(
             {
-                memberId: {
+                requestId: {
                     type: DataTypes.BIGINT,
                     autoIncrement: true,
                     primaryKey: true,
                     allowNull: false
                 },
-                nickname: {
-                    type: DataTypes.TEXT,
-                    allowNull: false
-                },
-                password: {
+                content: {
                     type: DataTypes.TEXT,
                     allowNull: false
                 }
@@ -23,8 +19,8 @@ export default class Member extends Model {
                 sequelize,
                 timestamps: true,
                 underscored: true,
-                modelName: "Member",
-                tableName: "member",
+                modelName: "Request",
+                tableName: "reuqest",
                 paranoid: false,
                 charset: 'utf8',
                 collate: 'utf8_general_ci'
@@ -33,8 +29,7 @@ export default class Member extends Model {
     }
 
     static associate(db) {
-        db.Member.hasMany(db.Post, { foreignKey: "memberId", sourceKey: "memberId", onDelete: 'CASCADE' });
-        db.Member.hasMany(db.Request, { foreignKey: "memberId", sourceKey: "memberId" });
+        db.Request.belongsTo(db.Member, { foreignKey: "memberId", sourceKey: "memberId" });
     }
 
 }

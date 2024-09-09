@@ -2,6 +2,7 @@ import { Sequelize } from 'sequelize';
 import * as configFile from '../config/config.js'
 import Member from './member.js';
 import Post from './post.js';
+import Request from './request.js';
 
 const env = process.env.NODE_ENV || 'development';
 const config = configFile.default[env];
@@ -18,12 +19,15 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 db.sequelize = sequelize;
 db.Member = Member;
 db.Post = Post;
+db.Request = Request;
 
 
 Member.init(sequelize);
 Post.init(sequelize);
+Request.init(sequelize);
 
 Member.associate(db);
 Post.associate(db);
+Request.associate(db);
 
 export default db;

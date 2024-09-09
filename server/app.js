@@ -8,6 +8,7 @@ import db from './models/index.js';
 import * as loginController from './controller/loginController.js';
 import * as postController from './controller/postController.js';
 import * as memberController from './controller/memberController.js';
+import * as requestController from './controller/requestController.js';
 import { imageController } from './controller/imageController.js';
 
 const app = express();
@@ -120,7 +121,17 @@ app.get('/preSgined', async (req, res) => {
 });
 
 app.get('/request', (req, res) => {
+  if (req.session.memberId == null) {
+    return res.redirect('/login');
+  }
   return res.render('request.html');
+});
+
+app.post('/request', (req, res) => {
+  if (req.session.memberId == null) {
+    return res.redirect('/login');
+  }
+  requestController.saveRequest(req, res);
 });
 
 app.use((req, res, next) => {

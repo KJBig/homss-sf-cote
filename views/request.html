@@ -3,90 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="favicon" href="./autoerver.png">
-    <title>로그인-[HOMSS-SF]</title>
+    <title>Input Square</title>
     <style>
         body {
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            position: relative;
         }
-        h1 {
+        .container {
             text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
         }
-        .login-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 300px;
+        input {
+            width: 500px;
+            height: 250px;
+            text-align: center;
+            font-size: 16px;
         }
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            box-sizing: border-box;
+        button {
+            margin-top: 10px;
+            padding: 5px 100px;
+            font-size: 16px;
         }
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            cursor: pointer;
+        .back-button {
+            position: absolute;
+            top: 10px; /* 상단에서 10px 위치 */
+            left: 10px; /* 좌측에서 10px 위치 */
+            padding: 5px 10px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-
-    <h1>오토에버 1기 스마트 팩토리 코테 공부하자!</h1>
-    <!-- <h1>Test</h1> -->
-
-    <!-- <div class="login-container">
-        <form id="loginForm">
-            
-        </form>
-        <button type="button" onclick="window.location.href='/join'">회원가입</button>
-    </div> -->
-
-    <div class="input-wrap">
-        <input type="text">  
-   </div>
-
+    <button class="back-button" onclick="window.history.back()">뒤로가기</button>
+    
+    <div class="container">
+        <h1>건의하기</h1>
+        <input type="text" id="inputText" placeholder="디자인은 제가 어찌 못해서..ㅎ 죄송합니닷 :D" />
+        <br>
+        <button id="submitButton">전송</button>
+    </div>
+    
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // 폼의 기본 제출 동작 방지
-    
-            // 폼 데이터 수집
-            const nickname = document.querySelector('input[name="nickname"]').value;
-            const password = document.getElementById('password').value;
-    
-            // AJAX 요청 생성
-            fetch('/login', {
+        document.getElementById('submitButton').addEventListener('click', function() {
+            const inputText = document.getElementById('inputText').value;
+            fetch('/request', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${password}`  // 비밀번호를 헤더에 추가
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ nickname: nickname })  // 비밀번호는 헤더로, 나머지 데이터는 바디로 보냄
+                body: JSON.stringify({ content: inputText })
             })
             .then(response => {
                 if (response.ok) {
                     // 성공 처리
-                    window.location.href = '/rank';  // 로그인 성공 후 이동할 페이지
+                    alert('감사합니다.');
+                    window.location.href = '/mypage';  // 성공 후 이동할 페이지
                 } else {
                     // 실패 처리
-                    alert('로그인 실패');
+                    alert('등록 실패');
+                    console.error('Error:', error);
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
             });
         });
     </script>
-
 </body>
 </html>
