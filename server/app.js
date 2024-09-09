@@ -38,6 +38,13 @@ nunjucks.configure('views', {
 
 app.use('/uploads/image', imageController);
 
+app.get('/', (req, res) => {
+  if (req.session.memberId == null) {
+    return res.redirect('/login');
+  }
+  return res.redirect('/rank');
+});
+
 app.get('/login', (req, res) => {
   return res.render('login.html');
 });
@@ -56,7 +63,7 @@ app.post('/join', (req, res) => {
 
 app.get('/rank', async (req, res) => {
   if (req.session.memberId == null) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   const rankers = await memberController.getRanker(req, res);
   return res.render('rank.html',{"ranking_list": rankers});
@@ -64,21 +71,21 @@ app.get('/rank', async (req, res) => {
 
 app.get('/certification', (req, res) => {
   if (req.session.memberId == null) {
-      res.redirect('/login');
+      return res.redirect('/login');
     }
   return res.render('certification.html');
 });
 
 app.post('/post', (req, res) => {
   if (req.session.memberId == null) {
-      res.redirect('/login');
+      return res.redirect('/login');
     }
     postController.saveNewPost(req, res);  
 });
 
 app.get('/mypage', async (req, res) => {
   if (req.session.memberId == null) {
-      res.redirect('/login');
+      return res.redirect('/login');
     }
     const mypageData = await memberController.getMemberMypage(req, res);
     return res.render('mypage.html', {"mypageData": mypageData, "memberId": req.session.memberId});
@@ -91,14 +98,14 @@ app.get('/status', async (req, res) => {
 
 app.delete('/member/withdraw', (req, res) => {
   if (req.session.memberId == null) {
-      res.redirect('/login');
+      return res.redirect('/login');
     }
     memberController.withdrawMember(req, res);
 });
 
 app.get('/post/:postId', async (req, res) => {
   if (req.session.memberId == null) {
-      res.redirect('/login');
+      return res.redirect('/login');
     }
     const { postId } = req.params;
     const post = await postController.getPostDetail(req, res, postId);
