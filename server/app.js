@@ -47,6 +47,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
+  if (req.session.memberId != null) {
+    return res.redirect('/rank');
+  }
   return res.render('login.html');
 });
 
@@ -54,7 +57,16 @@ app.post('/login', (req, res) => {
   loginController.loginMember(req, res);
 });
 
+app.post('/logout', (req, res) => {
+  console.log(req.session.memberId, " 로그아웃");
+  req.session.memberId = null;
+  return res.status(200).json({ message: '로그아웃 성공' });;
+});
+
 app.get('/join', (req, res) => {
+  if (req.session.memberId != null) {
+    return res.redirect('/rank');
+  }
   return res.render('join.html');
 });
 
