@@ -5,7 +5,12 @@ const CONFIG = {
       database: process.env.DB_DATABASE,
       host: process.env.DB_HOST,
       dialect: process.env.DB_DIALECT,
-      timezone: "+09:00"
+      timezone: "Asia/Seoul",
+      dialectOptions: {
+        charset: "utf8mb4",
+        dateStrings: true,
+        typeCast: true,
+      },
     },
     test: {
       username: process.env.DB_USERNAME,
@@ -13,7 +18,12 @@ const CONFIG = {
       database: process.env.DB_DATABASE,
       host: process.env.DB_HOST,
       dialect: process.env.DB_DIALECT,
-      timezone: "+09:00"
+      timezone: "Asia/Seoul",
+      dialectOptions: {
+        charset: "utf8mb4",
+        dateStrings: true,
+        typeCast: true,
+      },
     },
     production: {
       username: process.env.DB_USERNAME,
@@ -21,7 +31,12 @@ const CONFIG = {
       database: process.env.DB_DATABASE,
       host: process.env.DB_HOST,
       dialect: process.env.DB_DIALECT,
-      timezone: "+09:00"
+      timezone: "Asia/Seoul",
+      dialectOptions: {
+        charset: "utf8mb4",
+        dateStrings: true,
+        typeCast: true,
+      },
     },
   };
 

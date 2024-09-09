@@ -41,12 +41,12 @@ export const getAllPost = async function () {
             const date = new Date(time);
 
             // 연도, 월, 일, 시, 분, 초를 추출
-            const year = date.getUTCFullYear().toString().slice(-2); // '24'
-            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // '09'
-            const day = String(date.getUTCDate()).padStart(2, '0'); // '04'
-            const hours = String(date.getUTCHours()).padStart(2, '0'); // '14'
-            const minutes = String(date.getUTCMinutes()).padStart(2, '0'); // '42'
-            const seconds = String(date.getUTCSeconds()).padStart(2, '0'); // '16'
+            const year = date.getFullYear().toString().slice(-2); // '24'
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // '09'
+            const day = String(date.getDate()).padStart(2, '0'); // '04'
+            const hours = String(date.getHours()).padStart(2, '0'); // '14'
+            const minutes = String(date.getMinutes()).padStart(2, '0'); // '42'
+            const seconds = String(date.getSeconds()).padStart(2, '0'); // '16'
 
             const dto = {
                 postId: posts[i].postId,
