@@ -124,6 +124,10 @@
             // 이미지
             const imageInput = document.getElementById('image');
             const file = imageInput.files[0];
+            if (file == null) {
+                alert("이미지가 없습니다.");
+                return;
+            }
             const formData = new FormData();
 
             if (file) {
