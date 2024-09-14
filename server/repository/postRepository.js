@@ -51,7 +51,9 @@ export const findAllWithMember = async function (transaction) {
 export const findById = async function (postId, transaction) {
     try {
         return await Post.findOne({
-            postId: postId
+            where: {
+                postId: postId
+            }
         }, {transaction: transaction});
     } catch (error) {
         console.log(error);

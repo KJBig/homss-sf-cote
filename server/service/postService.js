@@ -74,7 +74,6 @@ export const getPostDetail = async function (postId) {
 
     try {
         transaction = await db.sequelize.transaction();
-        
         const post = await postRepository.findById(postId, transaction);
 
         await transaction.commit();

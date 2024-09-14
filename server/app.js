@@ -122,8 +122,7 @@ app.get('/post/:postId', async (req, res) => {
     }
     const { postId } = req.params;
     const post = await postController.getPostDetail(req, res, postId);
-    console.log(post[0]);
-    return res.render('post.html', {"post": post[0]});
+    return res.render('post.html', {"post": post});
 });
 
 app.get('/preSgined', async (req, res) => {

@@ -23,7 +23,7 @@ export const getAllPost = async function (req, res) {
 
 export const getPostDetail = async function (req, res, postId) {
     try {
-        const post = await postService.getAllPost(postId);
+        const post = await postService.getPostDetail(postId);
         return post;
     } catch (error) {
         console.log("postController.saveNewPost: ", error);
